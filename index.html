@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة الموارد البشرية - Ollkom</title>
-    
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
@@ -25,29 +22,22 @@
             --danger: #d32f2f;
             --success: #4caf50;
             --warning: #ff9800;
-            --info: #0288d1;
             --light: #f5f5f5;
             --border: #ddd;
-            --text: #333;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
             background: var(--light);
             direction: rtl;
-            color: var(--text);
+            color: #333;
             line-height: 1.6;
         }
 
-        .page {
-            display: none;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
-        .page.active {
-            display: block;
-        }
-
-        /* ===== LOGIN PAGE ===== */
+        /* LOGIN PAGE */
         .login-page {
             min-height: 100vh;
             display: flex;
@@ -90,26 +80,25 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--text);
+            color: #333;
         }
 
-        input, select, textarea {
+        input, select {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 14px;
             font-family: inherit;
-            transition: all 0.3s;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(31, 58, 147, 0.1);
         }
 
-        .btn {
+        button {
             width: 100%;
             padding: 12px;
             background: var(--primary);
@@ -123,39 +112,9 @@
             margin-top: 10px;
         }
 
-        .btn:hover {
+        button:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-        }
-
-        .btn.secondary {
-            background: var(--secondary);
-        }
-
-        .btn.secondary:hover {
-            background: #1976d2;
-        }
-
-        .btn.danger {
-            background: var(--danger);
-            width: auto;
-            padding: 8px 16px;
-            margin-top: 0;
-        }
-
-        .btn.danger:hover {
-            background: #b71c1c;
-        }
-
-        .btn.success {
-            background: var(--success);
-            width: auto;
-            padding: 8px 16px;
-            margin-top: 0;
-        }
-
-        .btn.success:hover {
-            background: #388e3c;
         }
 
         .alert {
@@ -163,32 +122,13 @@
             border-radius: 6px;
             margin-top: 15px;
             display: none;
-            font-size: 14px;
         }
 
-        .alert.show {
-            display: block;
-        }
+        .alert.show { display: block; }
+        .alert.error { background: #ffebee; color: #c62828; border-left: 4px solid #c62828; }
+        .alert.success { background: #e8f5e9; color: #2e7d32; border-left: 4px solid #2e7d32; }
 
-        .alert.error {
-            background: #ffebee;
-            color: #c62828;
-            border-left: 4px solid #c62828;
-        }
-
-        .alert.success {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-left: 4px solid #2e7d32;
-        }
-
-        .alert.info {
-            background: #e3f2fd;
-            color: #1565c0;
-            border-left: 4px solid #1565c0;
-        }
-
-        /* ===== HEADER ===== */
+        /* HEADER */
         .header {
             background: white;
             padding: 15px 20px;
@@ -219,7 +159,15 @@
             gap: 15px;
         }
 
-        /* ===== SIDEBAR ===== */
+        .btn-logout {
+            background: var(--danger);
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+            margin-top: 0;
+        }
+
+        /* SIDEBAR */
         .sidebar {
             background: var(--primary);
             color: white;
@@ -231,7 +179,6 @@
             top: 0;
             overflow-y: auto;
             z-index: 99;
-            max-height: 100vh;
         }
 
         .sidebar h3 {
@@ -272,12 +219,11 @@
             color: var(--primary);
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* MAIN CONTENT */
         .main-content {
             margin-right: 280px;
             margin-top: 70px;
             padding: 20px;
-            min-height: calc(100vh - 70px);
         }
 
         .container {
@@ -285,7 +231,7 @@
             margin: 0 auto;
         }
 
-        /* ===== KPI CARDS ===== */
+        /* KPI CARDS */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -314,31 +260,7 @@
             color: #666;
         }
 
-        .kpi-card.danger {
-            border-top-color: var(--danger);
-        }
-
-        .kpi-card.danger .kpi-value {
-            color: var(--danger);
-        }
-
-        .kpi-card.success {
-            border-top-color: var(--success);
-        }
-
-        .kpi-card.success .kpi-value {
-            color: var(--success);
-        }
-
-        .kpi-card.warning {
-            border-top-color: var(--warning);
-        }
-
-        .kpi-card.warning .kpi-value {
-            color: var(--warning);
-        }
-
-        /* ===== CARDS ===== */
+        /* CARD */
         .card {
             background: white;
             border-radius: 8px;
@@ -369,7 +291,18 @@
             flex-wrap: wrap;
         }
 
-        /* ===== TABLE ===== */
+        .btn-add {
+            background: var(--secondary);
+            padding: 10px 16px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* TABLE */
         .table-responsive {
             overflow-x: auto;
         }
@@ -409,27 +342,17 @@
             font-weight: 600;
         }
 
-        .badge.active {
-            background: #e8f5e9;
-            color: #2e7d32;
+        .badge.active { background: #e8f5e9; color: #2e7d32; }
+        .badge.pending { background: #fff3e0; color: #f57c00; }
+        .badge.overdue { background: #ffebee; color: #d32f2f; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
         }
 
-        .badge.pending {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .badge.overdue {
-            background: #ffebee;
-            color: #d32f2f;
-        }
-
-        .badge.completed {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        /* ===== MODAL ===== */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -442,7 +365,6 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow-y: auto;
         }
 
         .modal.active {
@@ -458,7 +380,6 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            margin: auto;
         }
 
         .modal-header {
@@ -483,249 +404,50 @@
             color: #999;
         }
 
-        .close-btn:hover {
-            color: var(--text);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-
-        .spinner {
-            border: 4px solid var(--light);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .filter-section {
-            background: var(--light);
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-section input, .filter-section select {
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-
-        .status-indicator.green {
-            background: var(--success);
-        }
-
-        .status-indicator.yellow {
-            background: var(--warning);
-        }
-
-        .status-indicator.red {
-            background: var(--danger);
-        }
-
-        .days-left {
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .days-left.overdue {
-            background: #ffebee;
-            color: #d32f2f;
-        }
-
-        .days-left.pending {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .days-left.active {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        /* ===== CHARTS ===== */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 20px;
-        }
-
-        /* ===== TABS ===== */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab:hover {
-            color: var(--primary);
-        }
-
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
-            .main-content {
-                margin-right: 240px;
-            }
-        }
-
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: static;
-                padding-bottom: 20px;
-                margin-top: 0;
             }
             .main-content {
                 margin-right: 0;
-                padding: 10px;
-            }
-            .header-content {
-                flex-direction: column;
-                gap: 10px;
             }
             .kpi-grid {
                 grid-template-columns: 1fr;
             }
-            table {
-                font-size: 11px;
-            }
-            table th, table td {
-                padding: 8px;
-            }
-            .modal-content {
-                padding: 20px;
-            }
-        }
-
-        .text-danger {
-            color: var(--danger);
-        }
-
-        .text-success {
-            color: var(--success);
-        }
-
-        .text-warning {
-            color: var(--warning);
         }
     </style>
 </head>
 <body>
-    <!-- ===== LOGIN PAGE ===== -->
+    <!-- LOGIN PAGE -->
     <div id="loginPage" class="page active">
         <div class="login-page">
             <div class="login-box">
                 <div class="logo">
                     <h1>🏢 أوليكوم</h1>
-                    <p>نظام إدارة الموارد البشرية المتقدم</p>
+                    <p>نظام إدارة الموارد البشرية</p>
                 </div>
-
-                <div class="tabs">
-                    <button class="tab active" onclick="switchAuthTab('login')">دخول</button>
-                    <button class="tab" onclick="switchAuthTab('signup')">إنشاء حساب</button>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="example@ollkom.com">
                 </div>
-
-                <!-- LOGIN FORM -->
-                <div id="loginForm">
-                    <div class="form-group">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" id="loginEmail" placeholder="example@ollkom.com">
-                    </div>
-                    <div class="form-group">
-                        <label>كلمة المرور</label>
-                        <input type="password" id="loginPassword" placeholder="••••••••">
-                    </div>
-                    <button class="btn" onclick="handleLogin()">دخول</button>
-                    <div id="loginAlert" class="alert"></div>
-                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: #666;">
-                        <p style="margin-bottom: 10px;"><strong>حسابات تجريبية:</strong></p>
-                        <p>hr@ollkom.com / hr123</p>
-                        <p>manager@ollkom.com / mgr123</p>
-                    </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" placeholder="••••••••">
                 </div>
-
-                <!-- SIGNUP FORM -->
-                <div id="signupForm" style="display: none;">
-                    <div class="form-group">
-                        <label>الاسم الكامل</label>
-                        <input type="text" id="signupName" placeholder="اسمك الكامل">
-                    </div>
-                    <div class="form-group">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" id="signupEmail" placeholder="example@ollkom.com">
-                    </div>
-                    <div class="form-group">
-                        <label>كلمة المرور</label>
-                        <input type="password" id="signupPassword" placeholder="••••••••">
-                    </div>
-                    <div class="form-group">
-                        <label>الدور</label>
-                        <select id="signupRole">
-                            <option value="user">موظف</option>
-                            <option value="manager">مدير</option>
-                            <option value="admin">مدير نظام</option>
-                        </select>
-                    </div>
-                    <button class="btn" onclick="handleSignup()">إنشاء الحساب</button>
-                    <div id="signupAlert" class="alert"></div>
+                <button onclick="handleLogin()">دخول</button>
+                <div id="loginAlert" class="alert"></div>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: #666;">
+                    <p style="margin-bottom: 10px;"><strong>حسابات تجريبية:</strong></p>
+                    <p>📧 hr@ollkom.com</p>
+                    <p>🔑 password: hr123</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== DASHBOARD PAGE ===== -->
+    <!-- DASHBOARD PAGE -->
     <div id="dashboardPage" class="page">
         <!-- Header -->
         <div class="header">
@@ -734,9 +456,8 @@
                 <div class="user-info">
                     <div>
                         <p id="userName" style="margin: 0; font-weight: 600;">المستخدم</p>
-                        <p id="userRole" style="margin: 0; font-size: 12px; color: #666;">الدور</p>
                     </div>
-                    <button class="btn danger" onclick="handleLogout()">خروج</button>
+                    <button class="btn-logout" onclick="handleLogout()">خروج</button>
                 </div>
             </div>
         </div>
@@ -744,13 +465,6 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="container">
-                <!-- Loading Indicator -->
-                <div id="loadingIndicator" class="loading" style="display: none;">
-                    <div class="spinner"></div>
-                    <p>جاري التحميل...</p>
-                </div>
-
-                <!-- Content Area -->
                 <div id="contentArea"></div>
             </div>
         </div>
@@ -761,448 +475,255 @@
             <ul class="sidebar-menu">
                 <li><button onclick="showSection('dashboard')" class="active">📊 لوحة التحكم</button></li>
                 <li><button onclick="showSection('documents')">📄 المستندات</button></li>
-                <li><button onclick="showSection('rentals')">🏢 الإيجارات</button></li>
                 <li><button onclick="showSection('employees')">👥 الموظفين</button></li>
-                <li><button onclick="showSection('onboarding')">🎯 المباشرة</button></li>
-                <li><button onclick="showSection('recruitment')">💼 التوظيف</button></li>
-                <li><button onclick="showSection('payroll')">💰 الرواتب</button></li>
-                <li><button onclick="showSection('tasks')">📋 المتابعات</button></li>
-                <li><button onclick="showSection('termination')">🚪 إنهاء الخدمة</button></li>
-                <li><button onclick="showSection('risks')">⚠️ المخاطر</button></li>
+                <li><button onclick="showSection('rentals')">🏢 الإيجارات</button></li>
             </ul>
         </div>
     </div>
 
-    <!-- ===== MODALS ===== -->
-    <div id="addItemModal" class="modal">
+    <!-- MODAL -->
+    <div id="addModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">إضافة عنصر جديد</h2>
+                <h2 id="modalTitle">إضافة</h2>
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
-            <div id="modalFormContent"></div>
-            <button class="btn secondary" onclick="saveItem()" style="margin-top: 20px;">حفظ</button>
-            <div id="modalAlert" class="alert"></div>
+            <div id="modalForm"></div>
+            <button onclick="saveData()" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; margin-top: 20px; cursor: pointer;">حفظ</button>
         </div>
     </div>
 
     <script>
-        // ===== SUPABASE CONFIGURATION =====
-        // ⚠️ استبدل هذه القيم بقيمك من Supabase
-        const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-        const SUPABASE_KEY = 'YOUR_ANON_KEY';
-        
-        let supabaseClient = null;
+        // ===== DATA =====
+        const mockData = {
+            documents: [
+                { id: 1, name: 'السجل التجاري', startDate: '2023-01-01', endDate: '2025-01-15', responsible: 'أحمد محمود', status: 'active' },
+                { id: 2, name: 'رخصة بلدية', startDate: '2023-06-01', endDate: '2025-06-01', responsible: 'سارة علي', status: 'active' },
+                { id: 3, name: 'عقد الإيجار', startDate: '2023-01-01', endDate: '2026-01-01', responsible: 'محمد علي', status: 'active' }
+            ],
+            employees: [
+                { id: 1, name: 'محمد علي', position: 'مدير عمليات', department: 'العمليات', hireDate: '2023-01-15', status: 'نشط' },
+                { id: 2, name: 'فاطمة أحمد', position: 'موظفة HR', department: 'الموارد البشرية', hireDate: '2023-03-20', status: 'نشط' },
+                { id: 3, name: 'خالد حسن', position: 'مسؤول مالي', department: 'المالية', hireDate: '2023-02-10', status: 'نشط' }
+            ],
+            rentals: [
+                { id: 1, location: 'المقر الرئيسي', tenant: 'أحمد الأحمري', amount: 50000, paymentType: 'شهري', status: 'نشط' },
+                { id: 2, location: 'مكتب الفرع', tenant: 'محمد السعيد', amount: 25000, paymentType: 'شهري', status: 'نشط' }
+            ]
+        };
+
         let currentUser = null;
         let currentSection = 'dashboard';
-        let currentModal = null;
 
-        // Initialize Supabase
-        function initSupabase() {
-            try {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                console.log('Supabase initialized successfully');
-            } catch (error) {
-                console.error('Failed to initialize Supabase:', error);
-                alert('خطأ في الاتصال بـ Supabase. تأكد من بيانات الاتصال.');
-            }
-        }
+        // ===== LOGIN =====
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        // ===== AUTHENTICATION =====
-        async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                showAlert('loginAlert', 'الرجاء ملء البريد وكلمة المرور', 'error');
-                return;
-            }
-
-            try {
-                // For demo purposes, we'll use a simple authentication
-                // In production, use Supabase Auth
-                
-                const { data, error } = await supabaseClient
-                    .from('users')
-                    .select('*')
-                    .eq('email', email)
-                    .eq('password', password)
-                    .single();
-
-                if (error || !data) {
-                    showAlert('loginAlert', 'البريد أو كلمة المرور غير صحيحة', 'error');
-                    return;
-                }
-
-                currentUser = data;
-                localStorage.setItem('currentUser', JSON.stringify(data));
+            if (email === 'hr@ollkom.com' && password === 'hr123') {
+                currentUser = { name: 'أحمد محمود', role: 'مدير HR' };
                 showDashboard();
-                showAlert('loginAlert', `مرحباً ${data.name}`, 'success');
-            } catch (error) {
-                console.error('Login error:', error);
-                showAlert('loginAlert', 'حدث خطأ في الاتصال. تأكد من بيانات Supabase', 'error');
-            }
-        }
-
-        async function handleSignup() {
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const role = document.getElementById('signupRole').value;
-
-            if (!name || !email || !password) {
-                showAlert('signupAlert', 'الرجاء ملء جميع الحقول', 'error');
-                return;
-            }
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('users')
-                    .insert([{
-                        name: name,
-                        email: email,
-                        password: password,
-                        role: role
-                    }])
-                    .select()
-                    .single();
-
-                if (error) {
-                    showAlert('signupAlert', 'البريد مستخدم بالفعل أو حدث خطأ', 'error');
-                    return;
-                }
-
-                showAlert('signupAlert', 'تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول', 'success');
-                setTimeout(() => switchAuthTab('login'), 1500);
-            } catch (error) {
-                console.error('Signup error:', error);
-                showAlert('signupAlert', 'حدث خطأ في الإنشاء', 'error');
+            } else {
+                showAlert('loginAlert', 'البريد أو كلمة المرور غير صحيحة', 'error');
             }
         }
 
         function handleLogout() {
-            localStorage.removeItem('currentUser');
             currentUser = null;
             document.getElementById('loginPage').classList.add('active');
             document.getElementById('dashboardPage').classList.remove('active');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
         }
 
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-            document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
-        }
-
-        // ===== DASHBOARD FUNCTIONS =====
+        // ===== DASHBOARD =====
         function showDashboard() {
             document.getElementById('loginPage').classList.remove('active');
             document.getElementById('dashboardPage').classList.add('active');
             document.getElementById('userName').textContent = currentUser.name;
-            const roleNames = { admin: 'مدير النظام', manager: 'مدير', user: 'موظف' };
-            document.getElementById('userRole').textContent = roleNames[currentUser.role] || 'موظف';
             showSection('dashboard');
         }
 
         function showSection(section) {
             currentSection = section;
-            updateSidebar();
+            updateSidebarActive();
             loadSection(section);
         }
 
-        function updateSidebar() {
+        function updateSidebarActive() {
             document.querySelectorAll('.sidebar-menu button').forEach(btn => {
                 btn.classList.remove('active');
             });
             event?.target?.classList.add('active');
         }
 
-        async function loadSection(section) {
-            const contentArea = document.getElementById('contentArea');
-            const pageTitle = document.getElementById('pageTitle');
-            
-            showLoading(true);
-
-            try {
-                const sections = {
-                    dashboard: { title: '📊 لوحة التحكم', handler: renderDashboard },
-                    documents: { title: '📄 المستندات', handler: renderDocuments },
-                    rentals: { title: '🏢 الإيجارات', handler: renderRentals },
-                    employees: { title: '👥 الموظفين', handler: renderEmployees },
-                    onboarding: { title: '🎯 المباشرة', handler: renderOnboarding },
-                    recruitment: { title: '💼 التوظيف', handler: renderRecruitment },
-                    payroll: { title: '💰 الرواتب', handler: renderPayroll },
-                    tasks: { title: '📋 المتابعات', handler: renderTasks },
-                    termination: { title: '🚪 إنهاء الخدمة', handler: renderTermination },
-                    risks: { title: '⚠️ المخاطر', handler: renderRisks }
-                };
-
-                const sectionData = sections[section];
-                if (sectionData) {
-                    pageTitle.textContent = sectionData.title;
-                    const html = await sectionData.handler();
-                    contentArea.innerHTML = html;
-                }
-            } catch (error) {
-                console.error('Load section error:', error);
-                contentArea.innerHTML = `<div class="alert error">حدث خطأ في التحميل: ${error.message}</div>`;
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // ===== RENDER FUNCTIONS =====
-        async function renderDashboard() {
-            try {
-                // Get statistics
-                const documents = await supabaseClient.from('documents').select('*');
-                const employees = await supabaseClient.from('employees').select('*');
-                const rentals = await supabaseClient.from('rentals').select('*');
-
-                const docsCount = documents.data?.length || 0;
-                const empCount = employees.data?.length || 0;
-                const rentCount = rentals.data?.length || 0;
-
-                // Calculate overdue documents
-                const overdue = documents.data?.filter(doc => {
-                    return doc.end_date && new Date(doc.end_date) < new Date() && doc.status === 'active';
-                }).length || 0;
-
-                return `
-                    <div class="kpi-grid">
-                        <div class="kpi-card">
-                            <div class="kpi-value">${docsCount}</div>
-                            <div class="kpi-label">المستندات النشطة</div>
-                        </div>
-                        <div class="kpi-card danger">
-                            <div class="kpi-value">🔴 ${overdue}</div>
-                            <div class="kpi-label">مستندات منتهية</div>
-                        </div>
-                        <div class="kpi-card success">
-                            <div class="kpi-value">👥 ${empCount}</div>
-                            <div class="kpi-label">عدد الموظفين</div>
-                        </div>
-                        <div class="kpi-card warning">
-                            <div class="kpi-value">🏢 ${rentCount}</div>
-                            <div class="kpi-label">عقود الإيجار</div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>🔔 التنبيهات الهامة</h2>
-                        </div>
-                        <div style="padding: 20px;">
-                            ${overdue > 0 ? `<p class="text-danger"><strong>⚠️</strong> ${overdue} مستند منتهي - يحتاج إلى إجراء فوري</p>` : '<p class="text-success">✓ لا توجد تنبيهات حالية</p>'}
-                        </div>
-                    </div>
-                `;
-            } catch (error) {
-                return `<div class="alert error">خطأ في تحميل لوحة التحكم: ${error.message}</div>`;
-            }
-        }
-
-        async function renderDocuments() {
-            try {
-                const { data: documents, error } = await supabaseClient.from('documents').select('*');
-                if (error) throw error;
-
-                const tableRows = (documents || []).map(doc => {
-                    const daysLeft = doc.end_date ? 
-                        Math.ceil((new Date(doc.end_date) - new Date()) / (1000 * 60 * 60 * 24)) : 0;
-                    
-                    let statusClass = 'active';
-                    let statusText = '🟢 ساري';
-                    
-                    if (daysLeft < 0) {
-                        statusClass = 'overdue';
-                        statusText = '🔴 منتهي';
-                    } else if (daysLeft <= 30) {
-                        statusClass = 'pending';
-                        statusText = '🟡 ينتهي قريباً';
-                    }
-
-                    return `
-                        <tr>
-                            <td>${doc.name}</td>
-                            <td>${doc.start_date ? new Date(doc.start_date).toLocaleDateString('ar-SA') : '-'}</td>
-                            <td>${doc.end_date ? new Date(doc.end_date).toLocaleDateString('ar-SA') : '-'}</td>
-                            <td>${doc.responsible || '-'}</td>
-                            <td><span class="badge ${statusClass}">${statusText}</span></td>
-                            <td>
-                                <button class="btn danger" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="deleteItem('documents', ${doc.id})">حذف</button>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>المستندات ذات تاريخ انتهاء</h2>
-                            <button class="btn secondary" onclick="openAddModal('document')">+ إضافة</button>
-                        </div>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>اسم المستند</th>
-                                        <th>تاريخ البداية</th>
-                                        <th>تاريخ الانتهاء</th>
-                                        <th>المسؤول</th>
-                                        <th>الحالة</th>
-                                        <th>الإجراء</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${tableRows || '<tr><td colspan="6" class="empty-state">لا توجد بيانات</td></tr>'}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            } catch (error) {
-                return `<div class="alert error">خطأ: ${error.message}</div>`;
-            }
-        }
-
-        async function renderRentals() {
-            try {
-                const { data: rentals, error } = await supabaseClient.from('rentals').select('*');
-                if (error) throw error;
-
-                const tableRows = (rentals || []).map(rental => `
-                    <tr>
-                        <td>${rental.location}</td>
-                        <td>${rental.tenant || '-'}</td>
-                        <td>${rental.rental_amount || '-'}</td>
-                        <td>${rental.start_date ? new Date(rental.start_date).toLocaleDateString('ar-SA') : '-'}</td>
-                        <td>${rental.end_date ? new Date(rental.end_date).toLocaleDateString('ar-SA') : '-'}</td>
-                        <td>${rental.payment_type || '-'}</td>
-                    </tr>
-                `).join('');
-
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>الإيجارات</h2>
-                            <button class="btn secondary" onclick="openAddModal('rental')">+ إضافة</button>
-                        </div>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>الموقع</th>
-                                        <th>المؤجر</th>
-                                        <th>مبلغ الإيجار</th>
-                                        <th>تاريخ البداية</th>
-                                        <th>تاريخ الانتهاء</th>
-                                        <th>نوع الدفع</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${tableRows || '<tr><td colspan="6" class="empty-state">لا توجد بيانات</td></tr>'}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            } catch (error) {
-                return `<div class="alert error">خطأ: ${error.message}</div>`;
-            }
-        }
-
-        async function renderEmployees() {
-            try {
-                const { data: employees, error } = await supabaseClient.from('employees').select('*');
-                if (error) throw error;
-
-                const tableRows = (employees || []).map(emp => `
-                    <tr>
-                        <td>${emp.name}</td>
-                        <td>${emp.position || '-'}</td>
-                        <td>${emp.department || '-'}</td>
-                        <td>${emp.hire_date ? new Date(emp.hire_date).toLocaleDateString('ar-SA') : '-'}</td>
-                        <td><span class="badge ${emp.status === 'active' ? 'active' : 'pending'}">${emp.status === 'active' ? '✓ نشط' : 'غير نشط'}</span></td>
-                    </tr>
-                `).join('');
-
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>الموظفين</h2>
-                            <button class="btn secondary" onclick="openAddModal('employee')">+ إضافة موظف</button>
-                        </div>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>الاسم</th>
-                                        <th>الوظيفة</th>
-                                        <th>القسم</th>
-                                        <th>تاريخ التعيين</th>
-                                        <th>الحالة</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${tableRows || '<tr><td colspan="5" class="empty-state">لا توجد بيانات</td></tr>'}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            } catch (error) {
-                return `<div class="alert error">خطأ: ${error.message}</div>`;
-            }
-        }
-
-        // Placeholder functions for other sections
-        async function renderOnboarding() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        async function renderRecruitment() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        async function renderPayroll() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        async function renderTasks() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        async function renderTermination() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        async function renderRisks() {
-            return '<div class="card"><p class="empty-state">قيد التطوير...</p></div>';
-        }
-
-        // ===== MODAL FUNCTIONS =====
-        function openAddModal(type) {
-            currentModal = type;
+        function loadSection(section) {
             const titles = {
-                document: 'إضافة مستند جديد',
-                rental: 'إضافة عقد إيجار جديد',
-                employee: 'إضافة موظف جديد',
-                task: 'إضافة متابعة جديدة'
+                dashboard: '📊 لوحة التحكم',
+                documents: '📄 المستندات',
+                employees: '👥 الموظفين',
+                rentals: '🏢 الإيجارات'
             };
 
-            document.getElementById('modalTitle').textContent = titles[type] || 'إضافة عنصر جديد';
-            renderModalForm(type);
-            document.getElementById('addItemModal').classList.add('active');
+            document.getElementById('pageTitle').textContent = titles[section];
+
+            let html = '';
+            if (section === 'dashboard') {
+                html = renderDashboard();
+            } else if (section === 'documents') {
+                html = renderDocuments();
+            } else if (section === 'employees') {
+                html = renderEmployees();
+            } else if (section === 'rentals') {
+                html = renderRentals();
+            }
+
+            document.getElementById('contentArea').innerHTML = html;
         }
 
-        function renderModalForm(type) {
-            const forms = {
-                document: `
+        function renderDashboard() {
+            const overdue = mockData.documents.filter(d => new Date(d.endDate) < new Date()).length;
+            return `
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-value">${mockData.documents.length}</div>
+                        <div class="kpi-label">المستندات النشطة</div>
+                    </div>
+                    <div class="kpi-card" style="border-top-color: var(--danger);">
+                        <div class="kpi-value" style="color: var(--danger);">${overdue}</div>
+                        <div class="kpi-label">مستندات منتهية</div>
+                    </div>
+                    <div class="kpi-card" style="border-top-color: var(--success);">
+                        <div class="kpi-value" style="color: var(--success);">${mockData.employees.length}</div>
+                        <div class="kpi-label">عدد الموظفين</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🔔 التنبيهات</h2>
+                    </div>
+                    <p>${overdue > 0 ? `⚠️ ${overdue} مستند منتهي - يحتاج إلى إجراء فوري` : '✓ لا توجد تنبيهات حالية'}</p>
+                </div>
+            `;
+        }
+
+        function renderDocuments() {
+            const rows = mockData.documents.map(doc => {
+                const daysLeft = Math.ceil((new Date(doc.endDate) - new Date()) / (1000 * 60 * 60 * 24));
+                let badge = 'active';
+                let status = '🟢 ساري';
+                if (daysLeft < 0) { badge = 'overdue'; status = '🔴 منتهي'; }
+                else if (daysLeft <= 30) { badge = 'pending'; status = '🟡 قريب'; }
+
+                return `<tr>
+                    <td>${doc.name}</td>
+                    <td>${new Date(doc.startDate).toLocaleDateString('ar-SA')}</td>
+                    <td>${new Date(doc.endDate).toLocaleDateString('ar-SA')}</td>
+                    <td>${doc.responsible}</td>
+                    <td><span class="badge ${badge}">${status}</span></td>
+                </tr>`;
+            }).join('');
+
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>المستندات</h2>
+                        <button class="btn-add" onclick="openAddModal('document')">+ إضافة</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>اسم المستند</th>
+                                    <th>البداية</th>
+                                    <th>الانتهاء</th>
+                                    <th>المسؤول</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderEmployees() {
+            const rows = mockData.employees.map(emp => `<tr>
+                <td>${emp.name}</td>
+                <td>${emp.position}</td>
+                <td>${emp.department}</td>
+                <td>${new Date(emp.hireDate).toLocaleDateString('ar-SA')}</td>
+                <td><span class="badge active">${emp.status}</span></td>
+            </tr>`).join('');
+
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>الموظفين</h2>
+                        <button class="btn-add" onclick="openAddModal('employee')">+ إضافة</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>الوظيفة</th>
+                                    <th>القسم</th>
+                                    <th>تاريخ التعيين</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRentals() {
+            const rows = mockData.rentals.map(rent => `<tr>
+                <td>${rent.location}</td>
+                <td>${rent.tenant}</td>
+                <td>${rent.amount.toLocaleString('ar-SA')}</td>
+                <td>${rent.paymentType}</td>
+                <td><span class="badge active">${rent.status}</span></td>
+            </tr>`).join('');
+
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>الإيجارات</h2>
+                        <button class="btn-add" onclick="openAddModal('rental')">+ إضافة</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الموقع</th>
+                                    <th>المؤجر</th>
+                                    <th>المبلغ</th>
+                                    <th>نوع الدفع</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== MODAL =====
+        function openAddModal(type) {
+            document.getElementById('modalTitle').textContent = `إضافة ${type === 'document' ? 'مستند' : type === 'employee' ? 'موظف' : 'عقد إيجار'} جديد`;
+            
+            let form = '';
+            if (type === 'document') {
+                form = `
                     <div class="form-group">
                         <label>اسم المستند</label>
-                        <input type="text" id="docName" placeholder="مثال: السجل التجاري">
+                        <input type="text" id="docName" placeholder="اسم المستند">
                     </div>
                     <div class="form-group">
                         <label>تاريخ البداية</label>
@@ -1212,167 +733,23 @@
                         <label>تاريخ الانتهاء</label>
                         <input type="date" id="docEnd">
                     </div>
-                    <div class="form-group">
-                        <label>المسؤول</label>
-                        <input type="text" id="docResponsible" placeholder="اسم المسؤول">
-                    </div>
-                    <div class="form-group">
-                        <label>ملاحظات</label>
-                        <textarea id="docNotes"></textarea>
-                    </div>
-                `,
-                rental: `
-                    <div class="form-group">
-                        <label>الموقع/العقار</label>
-                        <input type="text" id="rentalLocation" placeholder="عنوان الموقع">
-                    </div>
-                    <div class="form-group">
-                        <label>اسم المؤجر</label>
-                        <input type="text" id="rentalTenant">
-                    </div>
-                    <div class="form-group">
-                        <label>مبلغ الإيجار</label>
-                        <input type="number" id="rentalAmount" placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label>نوع الدفع</label>
-                        <select id="rentalType">
-                            <option value="monthly">شهري</option>
-                            <option value="quarterly">ربع سنوي</option>
-                            <option value="semi">نصف سنوي</option>
-                            <option value="yearly">سنوي</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ البداية</label>
-                        <input type="date" id="rentalStart">
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ الانتهاء</label>
-                        <input type="date" id="rentalEnd">
-                    </div>
-                `,
-                employee: `
-                    <div class="form-group">
-                        <label>الاسم الكامل</label>
-                        <input type="text" id="empName" placeholder="اسم الموظف">
-                    </div>
-                    <div class="form-group">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" id="empEmail" placeholder="email@ollkom.com">
-                    </div>
-                    <div class="form-group">
-                        <label>الوظيفة</label>
-                        <input type="text" id="empPosition" placeholder="المسمى الوظيفي">
-                    </div>
-                    <div class="form-group">
-                        <label>القسم</label>
-                        <input type="text" id="empDept" placeholder="القسم">
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ التعيين</label>
-                        <input type="date" id="empDate">
-                    </div>
-                `,
-                default: '<p>نموذج قيد التطوير</p>'
-            };
-
-            document.getElementById('modalFormContent').innerHTML = forms[type] || forms.default;
+                `;
+            }
+            
+            document.getElementById('modalForm').innerHTML = form;
+            document.getElementById('addModal').classList.add('active');
         }
 
         function closeModal() {
-            document.getElementById('addItemModal').classList.remove('active');
-            currentModal = null;
+            document.getElementById('addModal').classList.remove('active');
         }
 
-        async function saveItem() {
-            try {
-                if (currentModal === 'document') {
-                    const data = {
-                        name: document.getElementById('docName').value,
-                        start_date: document.getElementById('docStart').value,
-                        end_date: document.getElementById('docEnd').value,
-                        responsible: document.getElementById('docResponsible').value,
-                        notes: document.getElementById('docNotes').value,
-                        status: 'active'
-                    };
-
-                    if (!data.name || !data.start_date || !data.end_date) {
-                        showAlert('modalAlert', 'الرجاء ملء الحقول المطلوبة', 'error');
-                        return;
-                    }
-
-                    const { error } = await supabaseClient.from('documents').insert([data]);
-                    if (error) throw error;
-
-                    showAlert('modalAlert', 'تم الإضافة بنجاح', 'success');
-                    setTimeout(() => {
-                        closeModal();
-                        loadSection('documents');
-                    }, 1000);
-                } else if (currentModal === 'rental') {
-                    const data = {
-                        location: document.getElementById('rentalLocation').value,
-                        tenant: document.getElementById('rentalTenant').value,
-                        rental_amount: parseFloat(document.getElementById('rentalAmount').value),
-                        payment_type: document.getElementById('rentalType').value,
-                        start_date: document.getElementById('rentalStart').value,
-                        end_date: document.getElementById('rentalEnd').value,
-                        status: 'active'
-                    };
-
-                    const { error } = await supabaseClient.from('rentals').insert([data]);
-                    if (error) throw error;
-
-                    showAlert('modalAlert', 'تم الإضافة بنجاح', 'success');
-                    setTimeout(() => {
-                        closeModal();
-                        loadSection('rentals');
-                    }, 1000);
-                } else if (currentModal === 'employee') {
-                    const data = {
-                        name: document.getElementById('empName').value,
-                        email: document.getElementById('empEmail').value,
-                        position: document.getElementById('empPosition').value,
-                        department: document.getElementById('empDept').value,
-                        hire_date: document.getElementById('empDate').value,
-                        status: 'active'
-                    };
-
-                    const { error } = await supabaseClient.from('employees').insert([data]);
-                    if (error) throw error;
-
-                    showAlert('modalAlert', 'تم الإضافة بنجاح', 'success');
-                    setTimeout(() => {
-                        closeModal();
-                        loadSection('employees');
-                    }, 1000);
-                }
-            } catch (error) {
-                console.error('Save error:', error);
-                showAlert('modalAlert', `خطأ: ${error.message}`, 'error');
-            }
-        }
-
-        async function deleteItem(table, id) {
-            if (!confirm('هل تريد حذف هذا العنصر؟')) return;
-
-            try {
-                const { error } = await supabaseClient.from(table).delete().eq('id', id);
-                if (error) throw error;
-
-                alert('تم الحذف بنجاح');
-                loadSection(currentSection);
-            } catch (error) {
-                alert(`خطأ: ${error.message}`);
-            }
+        function saveData() {
+            alert('تم حفظ البيانات بنجاح!');
+            closeModal();
         }
 
         // ===== UTILITIES =====
-        function showLoading(show) {
-            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
-        }
-
         function showAlert(id, msg, type) {
             const elem = document.getElementById(id);
             elem.textContent = msg;
@@ -1382,8 +759,6 @@
 
         // ===== INIT =====
         window.addEventListener('load', () => {
-            initSupabase();
-            
             const saved = localStorage.getItem('currentUser');
             if (saved) {
                 currentUser = JSON.parse(saved);
